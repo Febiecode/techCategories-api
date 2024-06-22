@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 const port = 3006;
 
@@ -12,7 +13,7 @@ const techCategories = {
       "cards": [
         {
           "id": 1,
-          "image_url": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg",
+          "image_url": "http://localhost:3006/images/image.png",
           "title": "Exploring New Tech",
           "views": 1500,
           "likes": 250
@@ -244,7 +245,11 @@ const techCategories = {
   ]
 };
 
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/image/:imagename', (req, res) => {
+  res.sendFile(path.join(__dirname, `public/${req.params.imagename}`));
+});
 
 app.get('/api/categories', (req, res) => {
   res.json(techCategories);
